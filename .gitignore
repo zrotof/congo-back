@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+.htaccess
+
+# OS-specific files
+.DS_Store
+
+# Directory for key files
+rsa-keys/
+
+# Logs directories
+logs/
