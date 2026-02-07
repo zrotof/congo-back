@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class SnapFilter extends Model {
+  class Filter extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,18 +13,25 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  SnapFilter.init({
+  Filter.init({
     name: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
-    snapchatUrl: DataTypes.STRING,
+    filterUrl: DataTypes.STRING,
     usageCount: DataTypes.INTEGER,
+    platform: {
+      type: DataTypes.ENUM('SNAPCHAT', 'TIKTOK'),
+      defaultValue: 'SNAPCHAT',
+      validate: {
+        isIn: [['SNAPCHAT', 'TIKTOK']]
+      }
+    },
     isActive: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
   }, {
     sequelize,
-    modelName: 'SnapFilter',
+    modelName: 'Filter',
   });
-  return SnapFilter;
+  return Filter;
 };

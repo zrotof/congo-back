@@ -9,8 +9,6 @@ const {
   getById,
   create,
   update,
-  activate,
-  deactivate,
   remove
 } = require('../controllers/challenge.controller');
 
@@ -24,8 +22,6 @@ router.get('/', authGuard, getAll);
 router.get('/:id', authGuard, getById);
 router.post('/', authGuard, upload.single('image'), create);
 router.put('/:id', authGuard, upload.single('image'), update);
-router.post('/:id/activate', authGuard, activate);
-router.post('/:id/deactivate', authGuard, deactivate);
 router.delete('/:id', authGuard, remove);
 
 module.exports = router;

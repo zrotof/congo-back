@@ -5,88 +5,50 @@ const passport = require('passport');
 const { corsWithOptions } = require('./cors');
 const { port } = require('./config/dot-env');
 const socketManager = require('./sockets');
-const viewService = require('./services/view.service');
+
+// ✅ Import des 3 services compteurs
+const challengeCounterService = require('./services/challenge-counter.service');
+const filterCounterService = require('./services/filter-counter.service');
+const globalCounterService = require('./services/global-counter.service');
 
 const app = express();
 const server = http.createServer(app);
-
-// ══════════════════════════════════════════════════════
-//                    MIDDLEWARES
-// ══════════════════════════════════════════════════════
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(corsWithOptions);
 
-// ══════════════════════════════════════════════════════
-//                    PASSPORT
-// ══════════════════════════════════════════════════════
-
 require('./config/passport')(passport);
 app.use(passport.initialize());
 
-// ══════════════════════════════════════════════════════
-//                    SOCKET.IO
-// ══════════════════════════════════════════════════════
-
 const io = socketManager(server);
 
-// ══════════════════════════════════════════════════════
-//                    VIEW SERVICE
-// ══════════════════════════════════════════════════════
+// ✅ Init des 3 services
+Promise.all([
+  challengeCounterService.init(),
+  filterCounterService.init(),
+  globalCounterService.init()
+]).then(() => console.log('✅ Tous les services prêts'));
 
-viewService.init().then(() => {
-  console.log('✅ ViewService prêt');
-});
-
+// ✅ Synchro des 3 services
 setInterval(() => {
-  viewService.syncToDatabase();
+  challengeCounterService.sync();
+  filterCounterService.sync();
+  globalCounterService.sync();
 }, 5000);
-
-// ══════════════════════════════════════════════════════
-//                    ROUTES
-// ══════════════════════════════════════════════════════
 
 app.use('/api', require('./routes'));
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Reveal Challenge API',
-    version: '1.0.0'
-  });
-});
-
-// ══════════════════════════════════════════════════════
-//                    ERREURS
-// ══════════════════════════════════════════════════════
-
-app.use((req, res) => {
-  res.status(404).json({ status: 'error', message: 'Route non trouvée' });
-});
-
-app.use((err, req, res, next) => {
-  console.error('❌ Erreur:', err.message);
-  res.status(err.status || 500).json({
-    status: 'error',
-    message: err.message || 'Erreur interne'
-  });
-});
-
-// ══════════════════════════════════════════════════════
-//                    DÉMARRAGE
-// ══════════════════════════════════════════════════════
-
 server.listen(port, () => {
-  console.log('═══════════════════════════════════════════');
-  console.log(`🚀 Serveur démarré sur le port ${port}`);
-  console.log(`📡 API: http://localhost:${port}/api`);
-  console.log(`🔌 Socket.io: ws://localhost:${port}`);
-  console.log('═══════════════════════════════════════════');
+  console.log(`🚀 Serveur sur port ${port}`);
 });
 
 process.on('SIGINT', async () => {
-  console.log('\n🛑 Arrêt du serveur...');
-  await viewService.syncToDatabase();
+  await Promise.all([
+    challengeCounterService.sync(),
+    filterCounterService.sync(),
+    globalCounterService.sync()
+  ]);
   process.exit(0);
 });

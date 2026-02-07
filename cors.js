@@ -2,10 +2,7 @@ const cors = require('cors');
 const { urlWhiteListed } = require('./config/dot-env')
 
 //liste of url accepted on request
-const whiteList = [
-    urlWhiteListed.public,
-    urlWhiteListed.admin
-];
+const whiteList = Object.values(urlWhiteListed);
 
 //Return true of false according to if the url calling the resources is known
 var corsOptionDelegate  = (req, callback) => {

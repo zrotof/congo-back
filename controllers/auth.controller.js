@@ -2,10 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const { models } = require('../models');
-const { tokenLifeTimeOnLogin, rsa } = require('../config/dot-env');
+const { rsa, tokenLifeTimeOnLogin } = require('../config/dot-env');
 const { isPasswordValid } = require('../helpers/password.helpers');
 
-// Charger la clé privée RSA
 const privateKeyPath = path.join(__dirname, '..', rsa.keysDir, rsa.privateKeyFilename);
 const RSA_PRIVATE_KEY = fs.readFileSync(privateKeyPath, 'utf8');
 
@@ -16,6 +15,7 @@ exports.login = async (req, res, next) => {
     if (!email || !password) {
       return res.status(400).json({
         status: 'error',
+        data: null,
         message: 'Email et mot de passe requis'
       });
     }
@@ -25,6 +25,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({
         status: 'error',
+        data: null,
         message: 'Identifiants invalides'
       });
     }
@@ -34,18 +35,15 @@ exports.login = async (req, res, next) => {
     if (!isValid) {
       return res.status(401).json({
         status: 'error',
+        data: null,
         message: 'Identifiants invalides'
       });
     }
 
-    // Créer le token JWT avec RSA
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       RSA_PRIVATE_KEY,
-      { 
-        algorithm: 'RS256',
-        expiresIn: tokenLifeTimeOnLogin 
-      }
+      { algorithm: 'RS256', expiresIn: tokenLifeTimeOnLogin }
     );
 
     res.cookie('admin_token', token, {
@@ -60,21 +58,20 @@ exports.login = async (req, res, next) => {
       data: {
         id: user.id,
         email: user.email,
-        username: user.username
+        username: user.username,
+        role: user.role
       },
       message: 'Connexion réussie'
     });
 
-  } catch (error) {
-    console.log(error)
-    next(error);
-  }
+  } catch (error) { next(error); }
 };
 
 exports.logout = (req, res) => {
   res.clearCookie('admin_token');
   return res.status(200).json({
     status: 'success',
+    data: null,
     message: 'Déconnexion réussie'
   });
 };
@@ -88,6 +85,7 @@ exports.me = (req, res) => {
       email: user.email,
       username: user.username,
       role: user.role
-    }
+    },
+    message: 'Utilisateur authentifié'
   });
 };

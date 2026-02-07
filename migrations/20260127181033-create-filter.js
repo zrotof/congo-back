@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('SnapFilters', {
+    await queryInterface.createTable('Filters', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,8 +17,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      snapchatUrl: {
+      filterUrl: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      platform: {
+        type: Sequelize.ENUM('SNAPCHAT', 'TIKTOK'),
+        defaultValue: 'SNAPCHAT',
         allowNull: false
       },
       usageCount: {
@@ -40,6 +45,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('SnapFilters');
+    await queryInterface.dropTable('Filters');
   }
 };

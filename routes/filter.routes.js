@@ -10,7 +10,7 @@ const {
   create,
   update,
   remove
-} = require('../controllers/snap-filter.controller');
+} = require('../controllers/filter.controller');
 
 const authGuard = passport.authenticate('admin-jwt', { session: false });
 

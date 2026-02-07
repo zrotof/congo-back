@@ -2,23 +2,27 @@ const { models } = require('../models');
 
 const challengeService = {
 
+  /**
+   * Récupère le challenge actif pour l'API publique
+   */
+  getActive: async () => {
+    return await models.Challenge.findOne({
+      where: { isActive: true },
+      attributes: [
+        'id', 'title', 'contextText', 'blurredImageUrl', 'targetViews', 'currentViews', 'imageUrl' // On a besoin de l'original aussi pour la logique de reveal
+      ]
+    });
+  },
+
   getAll: async () => {
     return await models.Challenge.findAll({
       order: [['createdAt', 'DESC']]
     });
   },
 
-  getActive: async () => {
-    return await models.Challenge.findOne({
-      where: { isActive: true }
-    });
-  },
-
   getById: async (id) => {
     const challenge = await models.Challenge.findByPk(id);
-    if (!challenge) {
-      throw new Error('Challenge non trouvé');
-    }
+    if (!challenge) throw new Error('Challenge non trouvé');
     return challenge;
   },
 
@@ -36,17 +40,23 @@ const challengeService = {
 
   update: async (id, data, imageUrls = null) => {
     const challenge = await models.Challenge.findByPk(id);
-    if (!challenge) {
-      throw new Error('Challenge non trouvé');
-    }
+    if (!challenge) throw new Error('Challenge non trouvé');
 
     const updateData = {};
-
     if (data.title !== undefined) updateData.title = data.title;
     if (data.contextText !== undefined) updateData.contextText = data.contextText;
     if (data.targetViews !== undefined) updateData.targetViews = parseInt(data.targetViews);
 
-    updateData.isActive = data.isActive === 'true';
+    // Gestion activation via update
+    if (data.isActive !== undefined) {
+      const isActive = data.isActive === 'true' || data.isActive === true;
+      
+      // Si on active ce challenge, on doit désactiver les autres
+      if (isActive) {
+        await models.Challenge.update({ isActive: false }, { where: {} });
+      }
+      updateData.isActive = isActive;
+    }
 
     if (imageUrls) {
       updateData.imageUrl = imageUrls.originalUrl;
@@ -57,38 +67,11 @@ const challengeService = {
     return challenge;
   },
 
-  activate: async (id) => {
-    await models.Challenge.update(
-      { isActive: false },
-      { where: {} }
-    );
-
-    const challenge = await models.Challenge.findByPk(id);
-    if (!challenge) {
-      throw new Error('Challenge non trouvé');
-    }
-
-    await challenge.update({ isActive: true });
-    return challenge;
-  },
-
-  deactivate: async (id) => {
-    const challenge = await models.Challenge.findByPk(id);
-    if (!challenge) {
-      throw new Error('Challenge non trouvé');
-    }
-
-    await challenge.update({ isActive: false });
-    return challenge;
-  },
-
   delete: async (id) => {
     const challenge = await models.Challenge.findByPk(id);
-    if (!challenge) {
-      throw new Error('Challenge non trouvé');
-    }
+    if (!challenge) throw new Error('Challenge non trouvé');
     await challenge.destroy();
-    return true;
+    return challenge;
   }
 };
 
