@@ -1,42 +1,30 @@
-const { models } = require('../models');
+const globalService = require('../services/global-counter.service');
 
-let globalVisits = 0;
+module.exports = (io, socket) => {
 
-const globalCounterService = {
+  /**
+   * JOIN_GLOBAL
+   * @param {Function} callback - Fonction pour répondre directement au client
+   */
+  socket.on('JOIN_GLOBAL', (callback) => {
+    socket.join('global');
+    
+    // 1. Incrémenter le compteur (+1 visite)
+    const count = globalService.registerVisit();
+    
+    console.log(`🌍 Nouvelle visite ! Total: ${count}`);
 
-  init: async () => {
-    try {
-      let stat = await models.GlobalStat.findOne();
-      if (!stat) {
-        stat = await models.GlobalStat.create({ totalVisits: 0 });
-      }
-      globalVisits = stat.totalVisits;
-      console.log(`🌍 [GlobalService] Initialisé : ${globalVisits} visites`);
-      return true;
-    } catch (error) {
-      console.error('❌ [GlobalService] Erreur init:', error);
-      return false;
+    // 2. Broadcast aux AUTRES utilisateurs connectés
+    socket.to('global').emit('GLOBAL_UPDATE', { totalVisits: count });
+
+    // 3. ✅ RÉPONSE DIRECTE AU CLIENT (Callback)
+    // C'est ici qu'on garantit que celui qui vient d'arriver reçoit la bonne valeur
+    if (typeof callback === 'function') {
+      callback({ totalVisits: count });
     }
-  },
+  });
 
-  registerVisit: () => {
-    globalVisits++;
-    return globalVisits;
-  },
-
-  getCount: () => {
-    return globalVisits;
-  },
-
-  sync: async () => {
-    try {
-      await models.GlobalStat.update({ totalVisits: globalVisits }, { where: { id: 1 } });
-      return true;
-    } catch (error) {
-      console.error('❌ [GlobalService] Erreur Synchro:', error);
-      return false;
-    }
-  }
+  socket.on('LEAVE_GLOBAL', () => {
+    socket.leave('global');
+  });
 };
-
-module.exports = globalCounterService;

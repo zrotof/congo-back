@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "category": "Vision Globale",
+    "keywords": "introduction vision projet bilan passé avenir récession crise pétrole covid marche développement denis sassou n'guesso",
+    "content": "Malgré la récession économique et la crise sanitaire, la marche vers le développement se poursuit. La nouvelle démarche consiste à accorder une attention particulière aux moyens humains et financiers pour réaliser nos ambitions. L'objectif est de bâtir une nation solidaire et une économie prospère."
+  },
+  {
+    "id": 2,
+    "category": "Paix & Unité",
+    "keywords": "paix unité nationale guerre conflit violence vivre ensemble sécurité stabilité séparatisme tribalisme haine",
+    "content": "La paix et l'unité nationale sont des acquis à préserver absolument. Nous combattrons le séparatisme, le communautarisme et la haine. L'autorité de l'État ne se négociera pas et s'imposera à tous pour garantir la sécurité et la stabilité des institutions."
+  },
+  {
+    "id": 3,
+    "category": "Démocratie & État de droit",
+    "keywords": "démocratie justice loi droit élection vote constitution institutions liberté parlement",
+    "content": "Nous renforcerons l'État de droit avec une justice impartiale. Toute évolution institutionnelle résultera de la volonté du peuple (référendum ou Parlement). La démocratie ne se limitera pas au vote : les conseils consultatifs auront plus de moyens."
+  },
+  {
+    "id": 4,
+    "category": "Décentralisation",
+    "keywords": "décentralisation mairie commune département ville village local administration territoire collectivités",
+    "content": "Nous allons approfondir la décentralisation en transférant des compétences et des ressources humaines et financières aux collectivités locales. Des impôts locaux et une péréquation seront mis en place pour financer le développement local."
+  },
+  {
+    "id": 5,
+    "category": "Gouvernance",
+    "keywords": "gouvernance gestion état administration transparence contrôle audit sanction rigueur réforme rationalisation",
+    "content": "Nous allons rationaliser l'État et améliorer la gouvernance par la transparence, l'obligation de rendre compte et le contrôle. Les gestionnaires publics seront sanctionnés en cas de faute et des audits réguliers seront organisés."
+  },
+  {
+    "id": 6,
+    "category": "Économie",
+    "keywords": "économie argent finance budget dette impôt fiscalité croissance pib crise relance macroéconomie fmi",
+    "content": "La priorité est la relance économique. Nous allons rétablir les grands équilibres, réduire le déficit, élargir l'assiette fiscale sans augmenter la pression sur les contribuables, et maîtriser la dette publique tout en privilégiant les financements alternatifs."
+  },
+  {
+    "id": 7,
+    "category": "Industrie & Diversification",
+    "keywords": "industrie usine fabrication diversification entreprise zones économiques spéciales zes pointe-noire brazzaville oyo ouesso transformation",
+    "content": "Nous allons diversifier l'économie via les Zones Économiques Spéciales (Pointe-Noire, Brazzaville, Oyo, Ouesso). L'objectif est d'installer des industries de transformation locale (bois, produits agricoles, alumine, matériaux de construction) pour créer des emplois."
+  },
+  {
+    "id": 8,
+    "category": "Tourisme",
+    "keywords": "tourisme voyage visiteur hôtel site fleuve congo parcs gorilles nature écotourisme loisirs",
+    "content": "Le tourisme sera développé autour de trois axes : Brazzaville (Cataractes, Mbé), l'Axe Sud (Côte, Gorges de Diosso) et l'Axe Nord (Parcs d'Odzala-Kokoua, fleuve). Nous investirons dans la formation aux métiers du tourisme et les infrastructures d'accueil."
+  },
+  {
+    "id": 9,
+    "category": "Climat des affaires",
+    "keywords": "business entreprise privé investissement création pme climat affaires guichet unique impôt commerce",
+    "content": "Nous allons améliorer l'environnement des affaires : création d'entreprise en 72h max, simplification des taxes, paiement électronique, et dialogue public-privé renforcé pour soutenir les PME congolaises."
+  },
+  {
+    "id": 10,
+    "category": "Infrastructures",
+    "keywords": "route pont électricité courant eau barrage barrage train chemin de fer aéroport port fibre optique internet bitume",
+    "content": "Nous allons mailler le pays : construction des barrages de Chollet et Sounda (obj. 2000 MW), 500km de routes par an, modernisation du chemin de fer (CFCO), pont route-rail Brazzaville-Kinshasa et extension de la fibre optique."
+  },
+  {
+    "id": 11,
+    "category": "Agriculture",
+    "keywords": "agriculture champ ferme paysan nourriture manioc élevage pêche cacao café tracteur rural manger alimentaire",
+    "content": "L'agriculture est la priorité pour l'emploi et l'autosuffisance. Nous allons soutenir les petits exploitants et les jeunes (accès au foncier, mécanisation, intrants), développer les cultures de rente (cacao, café) et l'élevage."
+  },
+  {
+    "id": 12,
+    "category": "Eau & Électricité (Social)",
+    "keywords": "eau robinet courant électricité lumière délestage potable forage énergie",
+    "content": "L'objectif est d'offrir l'électricité et l'eau potable à tous les ménages à moindre prix. Nous allons connecter toutes les agglomérations au réseau national et intensifier l'électrification rurale et le programme 'Eau pour tous'."
+  },
+  {
+    "id": 13,
+    "category": "Santé",
+    "keywords": "santé hôpital médecin malade soin médicament urgence chu clinique gratuité assurance maladie covid",
+    "content": "Nous garantissons des soins de qualité pour tous : achèvement des 12 hôpitaux généraux, rénovation du CHU, couverture maladie universelle, et création d'unités mobiles de santé pour les zones reculées."
+  },
+  {
+    "id": 14,
+    "category": "Social & Retraite",
+    "keywords": "social retraite pension lisungui aide pauvre vulnérable allocation sécurité sociale caisse",
+    "content": "Nous allons étendre la protection sociale à toute la population. Le dispositif 'Lisungui' sera élargi pour aider tous les ménages vulnérables et les régimes de sécurité sociale seront rendus pleinement opérationnels."
+  },
+  {
+    "id": 15,
+    "category": "Jeunesse & Emploi",
+    "keywords": "jeune emploi chômage travail formation école université stage apprentissage métier avenir égalité chances",
+    "content": "L'égalité des chances est notre priorité. Nous allons favoriser l'insertion professionnelle par la formation qualifiante, l'apprentissage, et l'aide à la création d'entreprise. Tout jeune doit avoir accès à une éducation de qualité."
+  },
+  {
+    "id": 16,
+    "category": "Environnement",
+    "keywords": "environnement nature écologie forêt climat pollution déchet poubelle propreté érosion inondation durable",
+    "content": "Nous promouvons le développement durable : gestion moderne des déchets urbains, lutte contre les érosions, protection des forêts (Bassin du Congo) et éducation à l'environnement dès l'école."
+  },
+  {
+    "id": 17,
+    "category": "Lutte contre la corruption",
+    "keywords": "corruption voleur argent détournement fraude anti-valeurs justice prison sanction impunité",
+    "content": "Tolérance zéro pour les anti-valeurs (corruption, fraude, népotisme). Nous allons renforcer la Haute Autorité de lutte contre la corruption et sanctionner sévèrement les coupables, notamment dans les régies financières et la justice."
+  },
+  {
+    "id": 18,
+    "category": "Culture",
+    "keywords": "culture art musique musée histoire patrimoine artiste tradition fespam livre bibliothèque",
+    "content": "Redynamisation de la vie culturelle : construction d'un musée national et de maisons de la culture dans chaque district, formation aux métiers des arts et soutien à la production d'œuvres culturelles congolaises."
+  },
+  {
+    "id": 19,
+    "category": "Sport",
+    "keywords": "sport football stade terrain athlétisme compétition jeux gymnase équipe entrainement",
+    "content": "Revitalisation des sports : doter chaque district de plateformes sportives, construire des écoles de sport à Brazza et Pointe-Noire, et rénover les stades de l'intérieur pour réinstaller le Congo comme grande nation sportive."
+  },
+  {
+    "id": 20,
+    "category": "Diplomatie",
+    "keywords": "diplomatie étranger international monde afrique coopération ambassade partenaire paix",
+    "content": "Notre diplomatie sera au service du développement (diplomatie économique) et de la paix. Le Congo continuera de jouer son rôle de médiateur en Afrique et de défenseur du Bassin du Congo sur la scène écologique mondiale."
+  }
+]

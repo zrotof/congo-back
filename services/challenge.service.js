@@ -47,15 +47,8 @@ const challengeService = {
     if (data.contextText !== undefined) updateData.contextText = data.contextText;
     if (data.targetViews !== undefined) updateData.targetViews = parseInt(data.targetViews);
 
-    // Gestion activation via update
-    if (data.isActive !== undefined) {
-      const isActive = data.isActive === 'true' || data.isActive === true;
-      
-      // Si on active ce challenge, on doit désactiver les autres
-      if (isActive) {
-        await models.Challenge.update({ isActive: false }, { where: {} });
-      }
-      updateData.isActive = isActive;
+    if (data?.isActive) {
+      updateData.isActive = data.isActive;
     }
 
     if (imageUrls) {

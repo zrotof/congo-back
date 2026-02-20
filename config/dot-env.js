@@ -15,6 +15,7 @@ module.exports = {
     port: process.env.PORT || 3000,
     environment: process.env.ENVIRONMENT,
     tokenLifeTimeOnLogin: process.env.TOKEN_LIFE_TIME_ON_LOGIN,
+    geminiApiKey: process.env.GEMINI_API_KEY,
     db: {
         name: process.env.DB_NAME,
         username: process.env.DB_USERNAME,
