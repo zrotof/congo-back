@@ -13,3 +13,20 @@ module.exports = (io, socket) => {
     socket.leave('global');
   });
 };
+
+module.exports = (io, socket) => {
+
+  /**
+   * Le client rejoint la room 'global'
+   * Uniquement pour écouter les mises à jour futures.
+   * L'incrémentation est gérée par l'API REST (POST /visit).
+   */
+  socket.on('JOIN_GLOBAL', () => {
+    socket.join('global');
+    // Pas d'action ici.
+  });
+
+  socket.on('LEAVE_GLOBAL', () => {
+    socket.leave('global');
+  });
+};
