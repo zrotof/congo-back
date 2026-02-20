@@ -1,30 +1,62 @@
-const globalService = require('../services/global-counter.service');
+const { models } = require('../models');
 
-module.exports = (io, socket) => {
+// Variable en mémoire (RAM)
+let globalVisits = 0;
+
+const globalCounterService = {
 
   /**
-   * JOIN_GLOBAL
-   * @param {Function} callback - Fonction pour répondre directement au client
+   * Initialisation au démarrage du serveur
    */
-  socket.on('JOIN_GLOBAL', (callback) => {
-    socket.join('global');
-    
-    // 1. Incrémenter le compteur (+1 visite)
-    const count = globalService.registerVisit();
-    
-    console.log(`🌍 Nouvelle visite ! Total: ${count}`);
-
-    // 2. Broadcast aux AUTRES utilisateurs connectés
-    socket.to('global').emit('GLOBAL_UPDATE', { totalVisits: count });
-
-    // 3. ✅ RÉPONSE DIRECTE AU CLIENT (Callback)
-    // C'est ici qu'on garantit que celui qui vient d'arriver reçoit la bonne valeur
-    if (typeof callback === 'function') {
-      callback({ totalVisits: count });
+  init: async () => {
+    try {
+      let stat = await models.GlobalStat.findOne();
+      
+      // Si la table est vide, on initialise
+      if (!stat) {
+        stat = await models.GlobalStat.create({ totalVisits: 0 });
+      }
+      
+      globalVisits = stat.totalVisits;
+      console.log(`🌍 [GlobalService] Initialisé : ${globalVisits} visites`);
+      return true;
+    } catch (error) {
+      console.error('❌ [GlobalService] Erreur init:', error);
+      return false;
     }
-  });
+  },
 
-  socket.on('LEAVE_GLOBAL', () => {
-    socket.leave('global');
-  });
+  /**
+   * Incrémente le compteur (+1)
+   * Retourne la nouvelle valeur
+   */
+  registerVisit: () => {
+    globalVisits++;
+    return globalVisits;
+  },
+
+  /**
+   * Retourne la valeur actuelle (lecture seule)
+   */
+  getCount: () => {
+    return globalVisits;
+  },
+
+  /**
+   * Sauvegarde la RAM vers la BDD
+   */
+  sync: async () => {
+    try {
+      await models.GlobalStat.update(
+        { totalVisits: globalVisits },
+        { where: { id: 1 } } // On suppose l'ID 1
+      );
+      return true;
+    } catch (error) {
+      console.error('❌ [GlobalService] Erreur Synchro:', error);
+      return false;
+    }
+  }
 };
+
+module.exports = globalCounterService;
