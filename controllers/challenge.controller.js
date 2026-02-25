@@ -71,6 +71,8 @@ exports.create = async (req, res, next) => {
       urls = await imageService.uploadChallengeImage(file, 'reveal_challenges');
     }
 
+    console.log(req.body);
+
     const challenge = await challengeService.create({
       ...req.body,
       imageUrl: urls?.originalUrl,

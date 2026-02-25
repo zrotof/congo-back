@@ -1,4 +1,5 @@
 const { models } = require('../models');
+const challengeCounterService = require('./challenge-counter.service');
 
 const challengeService = {
 
@@ -27,15 +28,27 @@ const challengeService = {
   },
 
   create: async (data) => {
-    return await models.Challenge.create({
+    // Si on crée un challenge actif, on doit désactiver les autres
+    if (data.isActive === 'true' || data.isActive === true) {
+      await models.Challenge.update({ isActive: false }, { where: {} });
+    }
+
+    const challenge = await models.Challenge.create({
       title: data.title,
       contextText: data.contextText || null,
       imageUrl: data.imageUrl || null,
       blurredImageUrl: data.blurredImageUrl || null,
       targetViews: parseInt(data.targetViews) || 1000,
       currentViews: 0,
-      isActive: data.isActive
+      isActive: data.isActive === 'true' || data.isActive === true
     });
+
+    // Mise à jour immédiate de la RAM si actif
+    if (challenge.isActive) {
+      await challengeCounterService.load(challenge.id);
+    }
+
+    return challenge;
   },
 
   update: async (id, data, imageUrls = null) => {
@@ -43,12 +56,17 @@ const challengeService = {
     if (!challenge) throw new Error('Challenge non trouvé');
 
     const updateData = {};
-    if (data.title !== undefined) updateData.title = data.title;
-    if (data.contextText !== undefined) updateData.contextText = data.contextText;
-    if (data.targetViews !== undefined) updateData.targetViews = parseInt(data.targetViews);
+    // ... (title, contextText, targetViews inchangés) ...
 
-    if (data?.isActive) {
-      updateData.isActive = data.isActive;
+    // Gestion de l'activation
+    if (data.isActive !== undefined) {
+      const isActive = data.isActive === 'true' || data.isActive === true;
+      updateData.isActive = isActive;
+
+      if (isActive) {
+        // Désactiver TOUS les autres
+        await models.Challenge.update({ isActive: false }, { where: {} });
+      }
     }
 
     if (imageUrls) {
@@ -57,6 +75,16 @@ const challengeService = {
     }
 
     await challenge.update(updateData);
+
+    // Mise à jour de la RAM
+    if (challenge.isActive) {
+      challengeCounterService.unload(); // Vider l'ancien
+      await challengeCounterService.load(challenge.id); // Charger le nouveau
+    } else {
+      // Si on vient de le désactiver
+      challengeCounterService.unload();
+    }
+
     return challenge;
   },
 
