@@ -3,12 +3,6 @@ require('dotenv').config();
 const allowedOrigins = [
     process.env.PUBLIC_URL_WHITELISTED,
     process.env.ADMIN_URL_WHITELISTED,
-    process.env.CLIENT_BASE_URL,
-    process.env.CLIENT_ADMIN_BASE_URL,
-    "https://sassou.sm-digitalizer.fr",
-    "https://www.sassou.sm-digitalizer.fr",
-    "https://admin-sassou.sm-digitalizer.fr",
-    "https://www.admin-sassou.sm-digitalizer.fr"
 ].filter(url => url);
 
 module.exports = {
